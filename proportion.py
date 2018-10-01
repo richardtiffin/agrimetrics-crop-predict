@@ -8,9 +8,10 @@ headers = {
 baseuri = 'https://api.agrimetrics.co.uk'
 names = helper.getPlantNames(baseuri, headers)
 
+result = []
 for plant in names:
     print(plant)
-    ODataQuery = "Field/hasSownCrop/label eq \'" + plant + "\' and Field/hasSownCrop/harvestYear eq 2016&$select=Field/hasSownCrop"
+    ODataQuery = "Field/hasSownCrop/any(c: c/label eq \'" + plant + "\' and c/harvestYear eq 2016)&$select=Field/hasSownCrop"
 
     fieldlist = helper.fieldSearch(ODataQuery, baseuri, headers)
 
@@ -23,5 +24,9 @@ for plant in names:
     except:
         pass
 
+    countdict = {i:savedcrops.count(i) for i in set(savedcrops)}
 
-    print(savedcrops)
+    if countdict != {}:
+        result.append({plant: countdict})
+
+print(result)

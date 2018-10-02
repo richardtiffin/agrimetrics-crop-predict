@@ -40,5 +40,6 @@ for crop in result:
     for elem in crop[1].keys():
         crop[1][elem] = crop[1][elem]/total
     dfinsert = pd.DataFrame(crop[1], index=[crop[0]])
+    df = df.append(dfinsert)
 
-df.to_pickle(dataframe)
+df.to_pickle('dataframe.pkl', sort=True)

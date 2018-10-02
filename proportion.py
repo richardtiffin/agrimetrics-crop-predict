@@ -1,6 +1,10 @@
 import helper
 from credentials import agrimetrics_key
 from pprint import pprint
+import pandas as pd
+import matplotlib.pyplot as plt
+import plotly.plotly as py
+import plotly.graph_objs as go
 
 headers = {
     'Ocp-Apim-Subscription-Key': agrimetrics_key,
@@ -27,6 +31,14 @@ for plant in names:
     countdict = {i:savedcrops.count(i) for i in set(savedcrops)}
 
     if countdict != {}:
-        result.append({plant: countdict})
+        result.append([plant, countdict])
 
-print(result)
+df = pd.DataFrame()
+data = []
+for crop in result:
+    total = sum(crop[1].values())
+    for elem in crop[1].keys():
+        crop[1][elem] = crop[1][elem]/total
+    dfinsert = pd.DataFrame(crop[1], index=[crop[0]])
+
+df.to_pickle(dataframe)

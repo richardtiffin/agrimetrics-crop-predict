@@ -257,7 +257,7 @@ def get2WksWeather(forecasts):
     return outdict
 
 def fieldSearch(OData, baseuri, headers):
-    fullUri = baseuri + '/field-search/' + '?$filter=' + OData
+    fullUri = baseuri + '/field-search/'  + OData
     r = requests.get(fullUri, headers=headers)
     return r.json()
 
